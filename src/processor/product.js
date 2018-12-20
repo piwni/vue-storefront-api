@@ -36,6 +36,18 @@ class ProductProcessor {
         let sgnObj = (config.tax.calculateServerSide === true) ? { priceInclTax: item._source.priceInclTax } : { price: item._source.price }
         item._source.sgn = hmac.sign(sgnSrc(sgnObj, item), config.objHashSecret); // for products we sign off only price and id becase only such data is getting back with orders
 
+        // process magento's media urls
+        if (item._source.description) {
+          item._source.description = item._source.description.replace(/\{\{media url="(.*?)"\}\}/g, function(match, url) {
+            return 'https://soboredclub.com/media/' + url
+          });
+        }
+        if (item._source.short_description) {
+          item._source.short_description = item._source.short_description.replace(/\{\{media url="(.*?)"\}\}/g, function(match, url) {
+            return 'https://soboredclub.com/media/' + url
+          });
+        }
+
         if (item._source.configurable_children) {
           item._source.configurable_children = item._source.configurable_children.map((subItem) => {
             if (subItem) {
@@ -46,7 +58,7 @@ class ProductProcessor {
             return subItem
           })
         }
-        
+
         return item
       }).bind(this))
 
