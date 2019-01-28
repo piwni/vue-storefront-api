@@ -39,12 +39,12 @@ class ProductProcessor {
         // process magento's media urls
         if (item._source.description) {
           item._source.description = item._source.description.replace(/\{\{media url="(.*?)"\}\}/g, function(match, url) {
-            return 'https://soboredclub.com/media/' + url
+            return 'https://xxx.soboredclub.com/media/' + url
           });
         }
         if (item._source.short_description) {
           item._source.short_description = item._source.short_description.replace(/\{\{media url="(.*?)"\}\}/g, function(match, url) {
-            return 'https://soboredclub.com/media/' + url
+            return 'https://xxx.soboredclub.com/media/' + url
           });
         }
 
